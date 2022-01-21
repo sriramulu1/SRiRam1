@@ -1,0 +1,15 @@
+Git Hub: Git hub is a code repository management tool where we can store the projects. It works like a google drive.
+
+
+Git Bash: is a command prompt. By using the command prompt we can import or export the data from local repository to remote repository.
+
+Commands that are used in GIT BASH:
+
+1) git init --- To initialize the folder
+2) git status --- To check the status
+3) git add . --- inorder to add all the files
+4) git add file name --- inorder to add a specified file
+5) git commit -m "first commit"--- inoder to commit the changes 
+6) git branch -m main --- inorder to change the branch from master (Local repository) to main (Remote repository)
+7) git remote add origin "URI path" -- inorder to save the changes in specified URI path.
+8) git push -u origin main --- inorder to push the changes in remote repository i.e. git hub.

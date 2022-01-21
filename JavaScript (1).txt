@@ -1,0 +1,593 @@
+Locators
+
+1. ID
+2. Name
+3. CSSSelector
+4. xpath
+5. linkText
+6.PartiallinkText
+7.className
+8.TagName------------------>to find group of similar webelements, then we will use 
+
+Inbox(123)
+AvailableSeats(143)
+
+Order(123)
+
+
+Inbox(423)
+
+Tag Name must starts with ---<a
+
+- Whenever linktext is changing dynamically , then we have to go with Partiallinktext --Dynamic Hyderlink
+- if linktext is not changing yet all , then we have to go with linktext ---Static Hyperlink
+
+
+
+driver.findElement(By.linkText("Inbox(123)")).click();
+
+
+driver.findElement(By.partialLinkText("Inbox")).click();
+driver.findElement(By.partialLinkText("AvailableSeats")).click();
+driver.findElement(By.partialLinkText("Order")).click();
+
+<input type="submit" name="Submit" class="button" id="btnLogin" value="LOGIN">
+<input type="submit" name="Submit" class="button" id="btnLogin1" value="RESET">
+
+findElement(By.className("button")).click();
+
+
+<input name="txtUsername" id="txtUsername" type="text">
+<input name="txtPassword" id="txtPassword" autocomplete="off" type="password">
+<input type="submit" name="Submit" class="button" id="btnLogin" value="LOGIN">
+
+<input name="txtUsername" id="txtUsername" type="hidden">
+
+
+
+
+
+
+
+
+JavaScript Executor
+
+1. We can launch new tab
+2. Scroll at particular web Element
+3. SendKeys
+4. Click
+5. Highlight a web Element border
+
+
+1. ((JavascriptExecutor)driver).executeScript("window.open()");
+
+2. js.executeScript("arguments[0].scrollIntoView();", Connect_with_Us);
+
+3. js.executeScript("arguments[0].setAttribute('value','admin123')", Password);
+
+4. js.executeScript("arguments[0].click();", LoginButton);
+
+5. js.executeScript("arguments[0].style.border='3px solid red'", UserName);
+
+---------------------------------------------------------------------------------
+
+
+Actions Class
+
+1. Mouse Hover action
+2. Double click
+3. Right CLick
+4. Drag and drop
+
+
+Actions actions = new Actions(driver);
+
+1. actions.moveToElement(Users).click().build().perform();
+2. actions.doubleClick(Copy_Text_Button).perform();
+3. actions.contextClick(RButton).perform();
+4. actions.dragAndDrop(Source_Drag_Button, Target_Drag_Button).perform();
+
+-------------------------------------------------------------------------
+
+Waits.......Synchronization issue
+
+1. Implicit Wait  -- Global Rule for all the web Elements
+
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+
+2. Explicit Wait - applicatble for a specific WebElement
+
+WebDriverWait wait=  new WebDriverWait(driver,60);
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Logout"))) ;
+				 
+
+
+3. Fluent wait - - applicatble for a specific WebElement
+
+
+
+4. Thread.sleep(5000);
+
+
+----------------------------------------------------------------------
+
+Frame?--- Frame is used to call another html page in the current web page.
+
+Frames can be handeletd in 3 ways
+
+1. Switch into frame by Index
+
+List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+System.out.println("Numnber of frames: " + frames.size());
+
+driver.switchTo().frame(frames.get(0));
+
+driver.switchTo().defaultContent();
+
+
+driver.switchTo().frame(frames.get(1));
+
+driver.switchTo().defaultContent();
+
+
+
+2. Switch into frame by name 
+driver.switchTo().frame("Google_ContactForm");
+
+
+3. Switch into frame by webelement reference
+
+driver.switchTo().frame(driver.findElement(By.id("GoogleContactForm")));
+
+-----------------------------------------------
+
+multiple windows:
+	
+ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+
+driver.switchTo().window(tabs.get(0));
+
+driver.switchTo().window(tabs.get(1));
+
+----------------------------------------------
+
+
+TestNG.xml --> Specific Module you can create Batch files.
+
+1. Parallel Classes ------------> TestNG.xml contains multiple TestNG classes,
+2. Parallel Tests ----------> TestNG.xml contains multiple Tests , 
+3. Parallel Methods---->TestNG Class contains multiple test methods
+
+4. Multiple Suites
+--------------------------------------
+
+
+PASSED: Test6_closebrowser-------->	@Test(priority=6)
+PASSED: Test4_Addnatialities---->	@Test(priority=5)
+PASSED: Test5_Logout-------------> 	@Test(priority=-1)
+PASSED: Test3_Login-------------->	@Test(priority=1)
+PASSED: Test2_OpenOrangeHRM------>	@Test(priority=0)
+PASSED: Test1_OpenChromeBrowser-->	@Test(priority=0)
+
+-----------------------------------------------------
+
+
+Day013 - TestNG Parameters
+
+TestNG.xml -----We can define testNG parameters in TestNG.xml
+TestNg Class--->@Parameters
+@DataProvider---> reading input data from an an excel
+
+
+Login()
+AddNationalities()
+Logout()
+
+Login()
+AddNationalities()
+Logout()
+
+Login()
+AddNationalities()
+Logout()
+------------------
+
+Login()
+AddNationalities()
+
+AddNationalities()
+AddNationalities()
+
+Logout
+--------------------
+
+int iRow=0;
+
+if(iRow==0)
+{
+	iRow=iRow+1;
+	Login();
+	AddNationalities();
+}
+else
+{
+	iRow=iRow+1;
+	AddNationalities();
+}
+
+------------------------------------
+
+
+Day_025_ExcelUtil_Apache_POI
+
+
+1.TC01.xlsx --->org.apache.poi.XSSF--->Office 2007,office2010,2013,2016
+
+
+import java.io.FileInputStream;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+
+    public FileInputStream fis = null;
+    public XSSFWorkbook workbook = null;
+    public XSSFSheet sheet = null;
+    public XSSFRow row = null;
+    public XSSFCell cell = null;
+
+	fis = new FileInputStream(xlFilePath);  //excel File path
+        workbook = new XSSFWorkbook(fis);   // workbook open
+        sheet = workbook.getSheet(sheetName); //Sheet1 open
+        row = sheet.getRow(rowNum); // 1st will be highlighted
+        cell = row.getCell(column); // 1th column will be highlited
+	
+	String str6=cell.getStringCellValue();
+
+
+
+2.TC02.xls---->org.apache.poi.HSSF---> Msoffice-97-2003
+
+
+Datadriven Test
+
+1. Data Provider
+2. Excel Sheet
+3. TestNG Parameters
+---------------------------------------
+
+File Ipload
+
+1. We have to save file path temperory buffer in CTRL+C Action
+
+C:\HTML Report\EMP_Photos\image2.jpg
+
+2. CTRL+V
+
+3. Enter key
+
+import Java.AWT.Robot;
+
+FIle Download:
+
+1. Users/Download
+2. MoveFile(Src,Dest)
+
+--------------------------------------
+
+
+XPath
+
+
+1. Absolute xpath-->Copy Full xapth--identifying the xpath from root node to current node is nothing but full xpath
+2. Relative xpath-->Copy xpath---> identifying the xpath based on object properties is known as
+
+
+<input name="txtUsername" id="txtUsername" type="text">
+//input[@name='txtUsername']
+//input[@name='txtUsername'  and @id='txtUsername' and @type='text']
+//*[@name='txtUsername']
+
+
+<a href="/index.php/admin/viewAdminModule" id="menu_admin_viewAdminModule" class="firstLevelMenu"><b>Admin</b></a>
+
+//a[@id="menu_admin_viewAdminModule"]/b
+
+
+//*[text()='Admin']
+//b[text()='Admin']
+
+-----------------------
+
+text()----->
+
+<a href="/index.php/admin/nationality" id="menu_admin_nationality">Nationalities</a>
+
+//a[@id='menu_admin_nationality' ]
+//a[  text()='Nationalities']
+
+
+
+
+
+---------------------------------------
+
+contains(text(),'')
+
+Welcome Ravi
+Welcome Hari
+Welcome Suresh
+
+<lable>Welcome Ravi</lable>
+
+//lable[  text()='Welcome Ravi']
+//lable[  text()='Welcome Hari']
+
+
+//*[contains(text(),'Nationalit')]
+//*[contains(text(),'Welcome')]
+
+
+//*[contains(@id,'txtUSer')]---Object attribute is changing dynamically everytime
+------------------------------------------------
+starts-with(text(),'Inbox')
+
+My Inbox(123)
+Inbox(123)
+
+//*[starts-with(text(),'Inbox')]
+//*[contains(text(),'Inbox')]
+------------------------------------------------
+
+following
+
+<lable>Hello</lable>
+//lable[text()='Hello']
+
+//*[@id='txtUsername']//following::lable
+
+//*[@id='txtUsername']------> Current webelement xpath
+
+
+//*[@id='txtUsername']//following::input   --1 of 2
+
+//*[@id='txtUsername']//following::input[1]---Password
+//*[@id='txtUsername']//following::input[2]--->loginbutton
+
+
+//*[@id='txtUsername']//following::a     ---1 of 6
+
+
+---------------------------------------------------
+
+
+
+preceding
+
+//*[@id="btnLogin"]//preceding::input[2]
+//*[@id="btnLogin"]//preceding::input[1]
+//*[@id="btnLogin"]//preceding::input  --> 1 of 7
+//*[@id="btnLogin"]
+
+---------------------------------------------------------
+
+Parent
+
+
+//*[@id="divUsername"]
+
+
+//*[@id="divUsername"]//child::input
+//*[@id="divUsername"]//child::input[1]
+//*[@id="divUsername"]//child::span[1]
+
+//*[@id='divUsername']//descendant::input[1]
+//*[@id="divUsername"]//descendant::span[1]
+-----------------------------------------------------
+
+child
+
+//*[@id="txtUsername"]
+//*[@id="txtUsername"]//parent::div
+
+//*[@id='divUsername']
+-------------------------------------------------
+
+ancestor : Parent+ Grand Parents
+
+//*[@id='txtUsername']//ancestor::div
+//*[@id='txtUsername']//ancestor::a
+//*[@id='txtUsername']//ancestor::lable
+---------------------------------------------
+Finding the webelements xpaths of other webelements which are on the same level of Hierarchy 
+
+//*[@id='divUsername']//following-sibling
+
+---------------------------------------------
+
+<lable>Welcome</lable>
+<span>Hello World</span>
+<div id="1234">1234</div>
+<a>Hai</a>
+
+//span[text()="Hello World]
+//div[text()='Logout']//preceding::span
+//lable[text()='welcome']//following::span
+//div[contains       ]
+
+//div[contains(text(),'1234')]
+//*[contains(@id,'1234')]
+//span[text()="Hello World]//following::div
+
+---------------------------------------------------------------------
+
+Excel Util Apache POI supporting libraries
+
+org.apache.poi.xssf-------------->.xlsx
+org.apache.poi.Hssf------------->.xls
+
+------------------------------------------------------
+
+WebTable - columns,rows ?
+
+
+//*[@id="resultTable"]/thead/tr/th[2]
+//*[@id="resultTable"]/thead/tr/th--------------->1 of 8 columns
+
+
+//*[@id="resultTable"]/tbody/tr[1]/td[2]
+//*[@id="resultTable"]/tbody/tr/td[2]-------------1 of 48 ---------->number of rows
+
+
+--------------------------------------------------------------------------------
+
+
+
+//*[@id="resultTable"]/thead/tr/th[2]
+//*[@id="resultTable"]/thead/tr/th----------------->Number of columns 1 of 8
+
+//*[@id="resultTable"]/tbody/tr[1]/td[2]
+//*[@id="resultTable"]/tbody/tr[5]/td[2]
+
+//*[@id="resultTable"]/tbody/tr/td[2]----------------->Number of rows 1 of 45 
+
+
+
+for(int i=1;i<=45;i++)  //rows
+{
+
+	for(int j=2;j<=8;j++)  //column
+	{
+
+		//*[@id="resultTable"]/tbody/tr[1]/td[2] 
+		//*[@id="resultTable"]/tbody/tr[1]/td[3]  
+		//*[@id="resultTable"]/tbody/tr[1]/td[4] 
+		-------------------------------
+		-------------------------------
+		//*[@id="resultTable"]/tbody/tr[1]/td[8] 
+
+
+		
+		//*[@id="resultTable"]/tbody/tr[2]/td[2] 
+		//*[@id="resultTable"]/tbody/tr[2]/td[3]  
+		//*[@id="resultTable"]/tbody/tr[2]/td[4] 
+		-------------------------------
+		-------------------------------
+		//*[@id="resultTable"]/tbody/tr[2]/td[8] 
+
+
+		//*[@id="resultTable"]/tbody/tr[3]/td[2] 
+		//*[@id="resultTable"]/tbody/tr[3]/td[3]  
+		//*[@id="resultTable"]/tbody/tr[3]/td[4] 
+		-------------------------------
+		-------------------------------
+		//*[@id="resultTable"]/tbody/tr[2]/td[8] 
+
+
+		//*[@id="resultTable"]/tbody/tr[i]/td[j]
+
+	}
+
+
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+TestNG Listners: If you want to forcefully fail a test then we would need to write it as
+
+Assert.asserttrue(false);
+
+If we write it as 
+
+Assert.asserttrue(true) then the test would get passed
+
+
+
+Whenever we are executing the test the listener test.java file is listening to the test execution status (pass or fail) and whatever methods we have written those are working
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+TestNG Groups:
+
+In testNG.XML if we need to mention which group needs to be executed by writing include and exclude name with the group name which you need to include and which one to be excluded.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TestNG annotations: how the testng annotations are getting executed in which order
+
+1) Before Suite
+2) Before Test
+3) Before Class
+4) @Test
+5) After class
+6) After test
+7) After suite
+
+
+whenever there is a @test then everytime @Before method and @ After methods will be executed
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Design Patterns
+
+1. Page Object Model
+
+
+Login Page --->Login.java------------------------------>Login()
+Home Page----->Homepage.java--------------------------->Logout()
+Nationality Page ----------->Nationality.java---------->AddNationality()
+
+for every webpage , We can develop seperate java class file and corresponding methods can developed.
+coming the main test case development,We are creating object for every class and 
+calling required methods as per the test case functional flow.
+
+Every page sepcific we are maintaining page Object repository.(We are declaring webelement locators for every page sepcifc)
+
+
+
+TC01_Add_Nationality
+
+Login l1=new Login();
+l1.Login();
+
+Nationality N1=new Nationality();
+N1.AddNationality()
+
+Homepage h1=new Homepage();
+h1.Logout();
+---------------------------------------------------------------
+
+
+2. Page Factory Model
+
+
+Whenever we are passing the driver from one page to another page ,
+We are calling PageFactory.initElements(driver, this);
+
+So that all @FindBy WebElements will be verified by driver and webelements will be initialized.
+Once all Webelements are available , Then only required methods can be invoked or excuted from that entity.
+
+-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+
+Waits
+
+1. Implicit wait
+2. Explixit Wait
+3. Fluent wait

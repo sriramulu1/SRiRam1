@@ -1,0 +1,51 @@
+ git config --global user.email "sriramulumula370@gmail.com"
+  git config --global user.name "sriramulu"
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$ git init
+Reinitialized existing Git repository in C:/demo11/.git/
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   New Microsoft Excel Worksheet.xlsx
+        new file:   New Text Document.txt
+
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$ git commit -m "first comment"
+[main (root-commit) 67c93e7] first comment
+ 2 files changed, 1 insertion(+)
+ create mode 100644 New Microsoft Excel Worksheet.xlsx
+ create mode 100644 New Text Document.txt
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$ git remote add origin https://github.com/sriramulu1/sri1.git
+error: remote origin already exists.
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$ git remote remove origin
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$ git remote add origin https://github.com/sriramulu1/sri1.git
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$ git push -u origin main
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 5.62 KiB | 2.81 MiB/s, done.
+Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/sriramulu1/sri1.git
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+
+DELL@DESKTOP-PJHQ6O2 MINGW64 /c/demo11 (main)
+$
+
